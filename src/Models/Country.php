@@ -4,7 +4,7 @@ namespace Avature\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Company extends Model
+class Country extends Model
 {
     protected $hidden = [
         'id', 

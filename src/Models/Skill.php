@@ -4,7 +4,6 @@ namespace Avature\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use DB;
 
 class Skill extends Model
 {

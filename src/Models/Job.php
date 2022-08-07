@@ -12,11 +12,9 @@ class Job extends Model
 {   
     protected $table = 'jobs';
 
-    protected $fillable = [
-    ];
-
     protected $with = [
         'skills', 
+        'country', 
         'company', 
     ];
 
@@ -26,7 +24,7 @@ class Job extends Model
         'companies', 
         'user_id', 
         'company_id', 
-        //'hidden_company', 
+        'country_id', 
         'companies', 
         'created_at', 
         'updated_at',
@@ -45,6 +43,11 @@ class Job extends Model
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
     }
 
     public function scopeSearch(Builder $query, ?string $search = null) :Builder
@@ -75,41 +78,4 @@ class Job extends Model
 
         return $entity;
     }
-
-    /*
-    $model                      = new $this->model;
-        $model->code                = $code;
-        $model->template_coupon_id  = $template_id;
-        $model->updated_at          = null;
-        $model->save();
-        $model->id                  = $model->id??null;
-        return (object) $model->toArray();
-
-
-
-    public function scopeFile($query, string $slug, int $page) :Builder
-    {
-        return $query
-            ->select("{$this->table}.folder","{$this->contents}.image")
-            ->where("{$this->table}.slug", $slug)
-            ->join($this->contents, function($join) use ($page){
-                $join->on("{$this->contents}.book_id", "{$this->table}.id");
-                $join->on("{$this->contents}.page", DB::raw($page));
-            });
-    }
-
-
-    public function scopeContent($query, string $slug, $search = null) :Builder
-    {
-        $query
-            ->select("{$this->contents}.page", "{$this->contents}.text_content")
-            ->where("{$this->table}.slug", $slug)
-            ->join($this->contents, "{$this->contents}.book_id", "{$this->table}.id");
-
-        if($search !== null){
-            $query->where("{$this->contents}.text_content", 'LIKE', "%{$search}%");
-        }
-        return $query->orderBy("{$this->contents}.page"); 
-    }
-    */
 }
