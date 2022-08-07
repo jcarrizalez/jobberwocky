@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Avature\Models\Skill;
 use Avature\Models\Company;
+use Avature\Models\Country;
 use App\Payloads\CreateJobPayload;
 
 class Job extends Model
@@ -58,9 +59,16 @@ class Job extends Model
                 ->join('job_skill AS js', 'js.skill_id', 'skills.id')
                 ->where('skills.description', 'LIKE', "%{$search}%");
 
+            $countries = Country::select('id')->where('name', 'LIKE', "%{$search}%");
+
+            $companies = Company::select('id')->where('name', 'LIKE', "%{$search}%");
+
             $query
                 ->where('title', 'LIKE', "%{$search}%")
                 ->orWhere('description', 'LIKE', "%{$search}%")
+                ->orWhere('salary', 'LIKE', "%{$search}%")
+                ->orWhereIn('country_id', $countries)
+                ->orWhereIn('company_id', $companies)
                 ->orWhereIn('id', $skills);
         }
         return $query->orderBy("{$this->table}.created_at", 'DESC'); 
