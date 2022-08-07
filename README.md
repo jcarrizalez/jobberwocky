@@ -16,6 +16,177 @@ docker-compose exec avature-laravel php artisan db:seed;
 docker-compose exec avature-laravel php artisan db:seed --class="Database\Seeders\AvatureDemoSeeder";
 ```
 
+## Enpoints
+- `GET` http://localhost:9891/api/jobs?count=10&page=1&search=java
+```json
+request:
+{
+}
+```
+```json
+response:
+{
+    "status": "success",
+    "data": {
+        "elements": [
+            {
+                "salary": 24000,
+                "title": "Jr Java Developer",
+                "description": null,
+                "external_service": "jobberwocky",
+                "skills": [
+                    {
+                        "slug": "java",
+                        "description": "Java"
+                    },
+                    {
+                        "slug": "oop",
+                        "description": "OOP"
+                    }
+                ],
+                "country": {
+                    "code": "ARG",
+                    "name": "Argentina"
+                },
+                "company": null
+            },
+            {
+            },
+            {
+            }
+        ],
+        "metadata": {
+            "count": 10,
+            "page": 1,
+            "total": 6,
+            "total_pages": 1
+        }
+    }
+}
+```
+
+- `POST` http://localhost:9891/api/jobs
+```json
+request:
+{
+    "salary": 10000,
+    "title": "Cisco [Weapons Specialists]",
+    "hidden_company" : false,
+    "description": "Suscipit non iure animi adipisci.......",
+    "skills": [
+        {
+            "slug": "php",
+            "description": "PHP"
+        },
+        {
+            "slug": "javascript",
+            "description": "JAVASCRIPT"
+        }
+    ],
+    "country": {
+        "code": "ARG",
+        "name": "Argentina"
+    },
+    "company": {
+        "name" : "Cisco"
+    }
+}
+```
+```json
+response:
+{
+    "status": "success",
+    "data": {
+        "salary": 10000,
+        "title": "Cisco [Weapons Specialists]",
+        "description": "Suscipit non iure animi adipisci.......",
+        "hidden_company":false,
+        "external_service": null,
+        "skills": [
+            {
+                "slug": "php",
+                "description": "PHP"
+            },
+            {
+                "slug": "javascript",
+                "description": "JAVASCRIPT"
+            }
+        ],
+        "country": {
+            "code": "ARG",
+            "name": "Argentina"
+        },
+        "company": {
+            "name": "Cisco"
+        }
+    }
+}
+```
+
+- `GET` http://localhost:9891/api/alerts?count=10&page=1
+```json
+request:
+{
+}
+```
+```json
+response:
+{
+    "status": "success",
+    "data": {
+        "elements": [
+            {
+                "slug": "java",
+                "description": "Java"
+            },
+            {
+                "slug": "html",
+                "description": "HTML"
+            }
+        ],
+        "metadata": {
+            "count": 10,
+            "page": 1,
+            "total": 2,
+            "total_pages": 1
+        }
+    }
+}
+```
+- `POST` http://localhost:9891/api/alerts
+```json
+request:
+{
+    "skills" :[
+        {
+            "slug": "java",
+            "description": "Java"
+        },
+        {
+            "slug": "html",
+            "description": "HTML"
+        }
+    ]
+}
+```
+```json
+response:
+{
+    "status": "success",
+    "data": [
+        {
+            "slug": "java",
+            "description": "Java"
+        },
+        {
+            "slug": "html",
+            "description": "HTML"
+        }
+    ]
+}
+```
+
+
 ## Conexion database
 - `MYSQL_USER:` develop
 - `MYSQL_PASSWORD:` 123456
