@@ -20,10 +20,9 @@ class JobberwockyExternalService
 	protected Skill $skill;
 	protected Country $country;
 	protected CreateJobService $createJobService;
+	protected string $url;
 
 	protected const NAME = 'jobberwocky';
-
-	protected string $url = 'http://api-avature-jobberwocky.local:8080/jobs';
 
 	public function __construct(HttpRequest $httpRequest, DB $db, Job $job, Skill $skill, Country $country, CreateJobService $createJobService)
 	{
@@ -32,6 +31,7 @@ class JobberwockyExternalService
 		$this->job = $job;
 		$this->skill = $skill;
 		$this->country = $country;
+		$this->url = env('JOBBERWOCKY_API');
 		$this->createJobService = $createJobService;
 	}
 
@@ -91,7 +91,7 @@ class JobberwockyExternalService
 
 	public function search(?string $search = null): array
 	{
-		$params = $search ? "?name=$search" : '';
+		$params = $search ? "/jobs?name=$search" : '/jobs';
 
 		$response = $this->getData($params);
 
