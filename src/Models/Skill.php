@@ -35,4 +35,9 @@ class Skill extends Model
         
         return $query->orderBy("skills.created_at", 'DESC'); 
     }
+
+    public function slugs(array $slugs) :array
+    {
+        return self::whereIn('slug', $slugs)->get()->pluck('slug')->toArray(); 
+    }
 }

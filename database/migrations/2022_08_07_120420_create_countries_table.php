@@ -16,7 +16,7 @@ class CreateCountriesTable extends Migration
     {
         Schema::create(self::TABLE, function (Blueprint $table) {
             $table->increments('id');
-            $table->string('code', 3);
+            $table->string('code', 3)->nullable();
             $table->string('name', 50);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->default(DB::raw('NULL ON UPDATE CURRENT_TIMESTAMP'))->nullable();

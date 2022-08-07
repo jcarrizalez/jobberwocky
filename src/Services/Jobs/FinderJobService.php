@@ -1,25 +1,26 @@
 <?php
 
-namespace Avature\Services\Job;
+namespace Avature\Services\Jobs;
 
 use Illuminate\Support\Collection;
 use Avature\Utils\Paginator;
 use Avature\Utils\EloquentPaginator;
 use Avature\Utils\Cache;
 use Avature\Models\Job;
+use Avature\Services\JobberwockyExternals\JobberwockyExternalService;
 
 class FinderJobService
 {
 	protected Job $job;
 	protected Cache $cache;
 	protected EloquentPaginator $paginator;
-	protected FinderJobberwockyExteneralJobsService $jobberwockyService;
+	protected JobberwockyExternalService $jobberwockyService;
 
 	public function __construct(
 		Job $job, 
 		Cache $cache, 
-		FinderJobberwockyExteneralJobsService $jobberwockyService, 
-		EloquentPaginator $paginator
+		EloquentPaginator $paginator,
+		JobberwockyExternalService $jobberwockyService
 	){
 		$this->job = $job;
 		$this->cache = $cache;
@@ -29,13 +30,14 @@ class FinderJobService
 
 	public function search(?string $search = null, Paginator $paginator): object
 	{
-		dd($this->jobberwockyService->search($search));
 		$cache = self::class.$search.$paginator->toString();
 
         if(null !== $response = $this->cache->get($cache)){
 
-            return $response;
+            //return $response;
         }
+
+        $this->jobberwockyService->make($search);
 
 		$response = $this->paginator->paginate(
 			$this->job->search($search), 

@@ -74,16 +74,24 @@ class Job extends Model
         return $query->orderBy("{$this->table}.created_at", 'DESC'); 
     }
 
-    public function create(CreateJobPayload$payload): self
+    public function create(CreateJobPayload $payload): self
     {
         $entity = new self;
         $entity->title = $payload->getTitle();
         $entity->user_id = $payload->getUserId();
+        $entity->salary = $payload->getSalary();
         $entity->company_id = $payload->getCompanyId();
+        $entity->country_id = $payload->getCcountryId();
+        $entity->external_service = $payload->getExternalService();
         $entity->description = $payload->getDescription();
         $entity->hidden_company = $payload->getHiddenCompany();
         $entity->save();
 
         return $entity;
+    }
+
+    public function jobberwockyTitles(array $titles) :array
+    {
+        return self::where('external_service', 'jobberwocky')->whereIn('title', $titles)->get()->pluck('title')->toArray(); 
     }
 }

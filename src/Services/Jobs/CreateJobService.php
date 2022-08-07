@@ -1,6 +1,6 @@
 <?php
 
-namespace Avature\Services\Job;
+namespace Avature\Services\Jobs;
 
 use App\Payloads\CreateJobPayload;
 use Avature\Utils\Cache;
@@ -35,7 +35,7 @@ class CreateJobService
 
 		$this->db->transaction(function() use($payload, &$response) {
 
-			try {
+			
 				$skills = $this->finderSkillService->getBySlugs($payload->getSkills());
 				
 				$job = $this->job->create($payload);
@@ -50,7 +50,7 @@ class CreateJobService
 				$job->save();
 			
 				$response = $this->job->find($job->id);
-			
+			try {
 			}catch (Exception $e) {
 
 	        }

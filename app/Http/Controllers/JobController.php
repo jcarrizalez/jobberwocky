@@ -2,8 +2,8 @@
 declare(strict_types=1);
 namespace App\Http\Controllers;
 
-use Avature\Services\Job\FinderJobService;
-use Avature\Services\Job\CreateJobService;
+use Avature\Services\Jobs\FinderJobService;
+use Avature\Services\Jobs\CreateJobService;
 use App\Http\Requests\CreateJobRequest;
 use Illuminate\Http\Request;
 

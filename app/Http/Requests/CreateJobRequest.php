@@ -5,10 +5,18 @@ namespace App\Http\Requests;
 use App\Payloads\CreateJobPayload;
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Sacar esto de aca y pasar a un service
+ */
+use Avature\Models\Country;
+use Avature\Models\Company;
+
 class CreateJobRequest extends FormRequest implements CreateJobPayload
 {
     protected const TITLE = 'title';
-    protected const COMPANY_ID = 'company_id';
+    protected const SALARY = 'salary';
+    protected const COMPANY = 'company';
+    protected const COUNTRY = 'country';
     protected const HIDDEN_COMPANY = 'hidden_company';
     protected const DESCRIPTION = 'description';
     protected const SKILLS = 'skills';
@@ -18,14 +26,33 @@ class CreateJobRequest extends FormRequest implements CreateJobPayload
         return 1;
     }
 
-    public function getHiddenCompany(): int
+    public function getCcountryId(): int
     {
-        return (int) $this->request->get(self::HIDDEN_COMPANY);
+        $country = Country::whereName($this->request->get(self::COUNTRY)['name'])->first();
+        return !$country ? null : $country->id;
     }
 
-    public function getCompanyId(): int
+    public function getExternalService(): ?string
     {
-        return (int) $this->request->get(self::COMPANY_ID);
+        return null;
+    }
+
+    public function getSalary(): ?float
+    {
+        $salary = $this->request->get(self::SALARY);
+
+        return $salary ? ((float) $salary) : null;
+    }
+
+    public function getHiddenCompany(): bool
+    {
+        return boolval($this->request->get(self::HIDDEN_COMPANY));
+    }
+
+    public function getCompanyId(): ?int
+    {
+        $company = Company::whereName($this->request->get(self::COMPANY)['name'])->first();
+        return !$company ? null : $company->id;
     }
 
     public function getTitle(): ?string
@@ -48,10 +75,11 @@ class CreateJobRequest extends FormRequest implements CreateJobPayload
         return [
             self::TITLE => 'required|string',
             self::HIDDEN_COMPANY => 'required|bool',
-            self::COMPANY_ID => 'required|exists:companies,id',
             self::DESCRIPTION => 'required|string',
             self::SKILLS => 'required|array',
             self::SKILLS .'.*.slug' => 'required|string|exists:skills,slug',
+            self::COMPANY .'.name' => 'required|string|exists:companies,name',
+            self::COUNTRY .'.name' => 'required|string|exists:countries,name',
         ];
     }
 }
