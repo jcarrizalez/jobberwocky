@@ -1,3 +1,27 @@
+## Download Proyects
+```
+git clone https://github.com/jcarrizalez/avature.git && cd avature;
+git clone https://github.com/avatureassessment/jobberwocky-extra-source.git;
+```
+## Install Proyects
+```
+docker-compose exec avature-jobberwocky npm install;
+docker-compose exec avature-laravel composer install;
+docker-compose exec avature-laravel php artisan migrate:rollback;
+docker-compose exec avature-laravel php artisan migrate;
+docker-compose exec avature-laravel php artisan db:seed;
+```
+## Add Data Demo
+```
+docker-compose exec avature-laravel php artisan db:seed --class="Database\Seeders\AvatureDemoSeeder";
+```
+
+## Conexion database
+- `MYSQL_USER:` develop
+- `MYSQL_PASSWORD:` 123456
+- ![image](https://user-images.githubusercontent.com/8440072/183313524-a8bd5300-da63-4031-a9b6-346e64a20a5b.png)
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 <p align="center">
@@ -6,6 +30,8 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
+
+
 
 ## About Laravel
 
