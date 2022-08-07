@@ -83,10 +83,11 @@ services:
   avature-jobberwocky:
     container_name: avature-jobberwocky
     restart: always
+    tty: true
     build:
       context: .
       dockerfile: ./docker-config/jobberwocky-extra-source/Dockerfile 
-    command: ['sh', '-c', 'cd /app && node app.js']
+    command: ['sh', '-c', 'npm install --loglevel=error && node app.js']
     volumes:
       - './jobberwocky-extra-source:/app'
     ports:
