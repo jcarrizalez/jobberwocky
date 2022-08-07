@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\JobController;
+use App\Http\Controllers\AlertController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +16,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['middleware' => []], function () {
+    
+    #jobs
+    Route::get('jobs', [JobController::class, 'search']);
+    Route::post('jobs', [JobController::class, 'create']);
+
+    #alerts
+    Route::get('alerts', [AlertController::class, 'search']);
+    Route::post('alerts', [AlertController::class, 'create']);
 });

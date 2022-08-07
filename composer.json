@@ -21,8 +21,12 @@
         "phpunit/phpunit": "^9.5.10"
     },
     "autoload": {
+        "files": [
+            "app/Helpers/response.php"
+        ],
         "psr-4": {
             "App\\": "app/",
+            "Avature\\": "src/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
         }
