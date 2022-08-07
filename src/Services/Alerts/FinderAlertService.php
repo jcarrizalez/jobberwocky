@@ -26,6 +26,9 @@ class FinderAlertService
 
         if(null !== $response = $this->cache->get($cache)){
 
+        	/**
+        	 * Hasta tener el metodo de limpiar cache por patron key
+        	 */
             //return $response;
         }
 

@@ -8,6 +8,8 @@ use Avature\Utils\DB;
 use Avature\Models\Job;
 use Avature\Models\Skill;
 use Avature\Services\Skills\FinderSkillService;
+use Avature\Services\Alerts\NotificationAlertService;
+
 use Exception;
 
 class CreateJobService
@@ -16,26 +18,29 @@ class CreateJobService
 	protected Job $job;
 	protected Cache $cache;
 	protected FinderSkillService $finderSkillService;
+	protected NotificationAlertService $notificationAlertService;
 
 	public function __construct(
 		DB $db,
 		Job $job, 
 		Cache $cache, 
-		FinderSkillService $finderSkillService
+		FinderSkillService $finderSkillService,
+		NotificationAlertService $notificationAlertService
 	){
 		$this->db = $db;
 		$this->job = $job;
 		$this->cache = $cache;
 		$this->finderSkillService = $finderSkillService;
+		$this->notificationAlertService = $notificationAlertService;
 	}
 
 	public function make(CreateJobPayload $payload): ?Job
 	{
-		$response = null;
+		$job = null;
 
-		$this->db->transaction(function() use($payload, &$response) {
+		$this->db->transaction(function() use($payload, &$job) {
 
-			
+			try {
 				$skills = $this->finderSkillService->getBySlugs($payload->getSkills());
 				
 				$job = $this->job->create($payload);
@@ -49,13 +54,17 @@ class CreateJobService
 
 				$job->save();
 			
-				$response = $this->job->find($job->id);
-			try {
+				$job = $this->job->find($job->id);
 			}catch (Exception $e) {
 
 	        }
 		});
 
-		return $response;
+		if($job){
+
+			$this->notificationAlertService->make($job);
+		}
+
+		return $job;
 	}
 }

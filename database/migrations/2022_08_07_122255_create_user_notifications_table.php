@@ -17,10 +17,12 @@ class CreateUserNotificationsTable extends Migration
         Schema::create(self::TABLE, function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
+            $table->integer('job_id')->unsigned();
             $table->text('description');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->default(DB::raw('NULL ON UPDATE CURRENT_TIMESTAMP'))->nullable();
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('job_id')->references('id')->on('jobs');
         });
     }
 
