@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\AlertController;
+use App\Http\Controllers\AuthenticationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,8 +17,13 @@ use App\Http\Controllers\AlertController;
 |
 */
 
-Route::group(['middleware' => []], function () {
-    
+#Authenticate
+#Route::post('authenticate/login', [AuthenticationController::class, 'login']);
+#Route::post('authenticate/logout', [AuthenticationController::class, 'logout']);
+#Route::post('authenticate/refresh', [AuthenticationController::class, 'refresh']);
+
+Route::group(['middleware' => ['avature.auth']], function () {
+
     #jobs
     Route::get('jobs', [JobController::class, 'search']);
     Route::post('jobs', [JobController::class, 'create']);

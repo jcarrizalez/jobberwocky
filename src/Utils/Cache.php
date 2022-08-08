@@ -15,13 +15,4 @@ class Cache
     {
     	BaseCache::put($key, $data, $minutes);
     }
-
-    public function getAllKeys()
-    {
-        BaseCache::flush();
-        return BaseCache::getStore()->getFilesystem();
-        ache::forget('key');
-    }
-
-    
 }

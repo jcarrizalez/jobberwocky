@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Avature\Services\Authentications\ContextService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton('Context', fn() => new ContextService(app(\Illuminate\Http\Request::class)));
     }
 
     /**
