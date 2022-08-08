@@ -1,27 +1,29 @@
-<?php 
-declare( strict_types = 1 );
+<?php
+
+declare(strict_types=1);
+
 namespace Avature\Utils;
 
 use Illuminate\Database\Eloquent\Builder;
 
 final class EloquentPaginator
 {
-	public static function paginate(Builder $query, Paginator $paginator): object
-	{
-		$count = $paginator->getCount();
+    public static function paginate(Builder $query, Paginator $paginator): object
+    {
+        $count = $paginator->getCount();
 
-		$page = $paginator->getPage();
+        $page = $paginator->getPage();
 
-		$paginate =  $query->paginate((int) $count, ['*'], 'page', $page);
+        $paginate =  $query->paginate((int) $count, ['*'], 'page', $page);
 
-		return (object) [
-			'elements' => $query->get(),
-			'metadata' =>[
-				'count' => $count,
-				'page' => $paginate->currentPage(),
-				'total' => $paginate->total(),
-				'total_pages' => $paginate->lastPage(),
-			]
-		];
-	}
+        return (object) [
+            'elements' => $query->get(),
+            'metadata' =>[
+                'count' => $count,
+                'page' => $paginate->currentPage(),
+                'total' => $paginate->total(),
+                'total_pages' => $paginate->lastPage(),
+            ]
+        ];
+    }
 }

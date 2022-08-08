@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Faker\Generator as Faker;
 use Illuminate\Console\Command;
-            
+
 class AvatureDemoSeeder extends Seeder
 {
     protected const TABLE_JOBS = 'jobs';
@@ -35,16 +35,15 @@ class AvatureDemoSeeder extends Seeder
      */
     public function run()
     {
-        if(env('APP_ENV') !== 'local'){
+        if (env('APP_ENV') !== 'local') {
             return $this->command->error('Only for Local Development: '. self::class);
         }
 
-        if(DB::table(self::TABLE_USERS)->count()){
-
+        if (DB::table(self::TABLE_USERS)->count()) {
             return $this->command->error('There are records in DB of this Seeeder: '. self::class);
         }
 
-        $companies = DB::table(self::TABLE_COMPANIES)->get()->map(fn($country) => (array) $country)->toArray();
+        $companies = DB::table(self::TABLE_COMPANIES)->get()->map(fn ($country) => (array) $country)->toArray();
 
         $users = $this->users();
         $userCompanies = $this->userCompanies($users, $companies);
@@ -68,8 +67,7 @@ class AvatureDemoSeeder extends Seeder
         $userStatic = [];
         $userRandom = [];
 
-        $person = function($id = null, $firstName = null, $lastName = null, $email = null) use (&$userStatic, &$userRandom) {
-
+        $person = function ($id = null, $firstName = null, $lastName = null, $email = null) use (&$userStatic, &$userRandom) {
             $data = [
                 'first_name' => $firstName ?? $this->faker->firstName,
                 'last_name' => 'Faker ' . ($lastName ?? $this->faker->lastName),
@@ -77,7 +75,7 @@ class AvatureDemoSeeder extends Seeder
                 'password' => Hash::make(self::PASSWORD),
             ];
 
-            if($id){
+            if ($id) {
                 return array_push($userStatic, array_merge(compact('id'), $data));
             }
             return array_push($userRandom, $data);
@@ -193,21 +191,17 @@ class AvatureDemoSeeder extends Seeder
     protected function userCompanyIds(array $users, array $companies, array $relations): array
     {
         $emailUsers = array_column($users, 'email');
-        
+
         $nameCompanies = array_column($companies, 'name');
 
         $items = [];
 
         foreach ($relations as $relation) {
-            
-            if(false !== $userKey = array_search($relation['email'], $emailUsers)){
-
+            if (false !== $userKey = array_search($relation['email'], $emailUsers)) {
                 $userId = $users[$userKey]['id'];
 
                 foreach ($relation['companies'] as $company) {
-
-                    if(false !== $companyKey = array_search($company, $nameCompanies)){
-
+                    if (false !== $companyKey = array_search($company, $nameCompanies)) {
                         $items[] = [
                             'user_id' => $users[$userKey]['id'],
                             'company_id' => $companies[$companyKey]['id'],
@@ -225,11 +219,9 @@ class AvatureDemoSeeder extends Seeder
         $job_skill = [];
 
         foreach ($relations as $relation) {
-
             array_push($jobs, $relation[self::TABLE_JOBS]);
 
             foreach ($relation[self::TABLE_JOB_SKILL] as $jobSkill) {
-
                 array_push($job_skill, $jobSkill);
             }
         }

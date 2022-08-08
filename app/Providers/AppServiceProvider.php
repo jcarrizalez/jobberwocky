@@ -14,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('Context', fn() => new ContextService(app(\Illuminate\Http\Request::class)));
+        $this->app->singleton('Context', fn () => new ContextService(app(\Illuminate\Http\Request::class)));
     }
 
     /**

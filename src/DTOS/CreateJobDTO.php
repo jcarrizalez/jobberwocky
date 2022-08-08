@@ -1,10 +1,12 @@
 <?php
+
 declare(strict_types=1);
+
 namespace Avature\DTOS;
 
 use App\Payloads\CreateJobPayload;
 
-class CreateJobDTO  implements CreateJobPayload
+class CreateJobDTO implements CreateJobPayload
 {
     protected string $title;
     protected float $salary;
@@ -15,12 +17,12 @@ class CreateJobDTO  implements CreateJobPayload
 
     public function __construct(string $title, float $salary, int $country_id, ?int $company_id, string $external_service, array $skills)
     {
-       $this->title = $title;
-       $this->salary = $salary;
-       $this->country_id = $country_id;
-       $this->company_id = $company_id;
-       $this->external_service = $external_service;
-       $this->skills = $skills;
+        $this->title = $title;
+        $this->salary = $salary;
+        $this->country_id = $country_id;
+        $this->company_id = $company_id;
+        $this->external_service = $external_service;
+        $this->skills = $skills;
     }
 
     public function getUserId(): int
@@ -45,7 +47,7 @@ class CreateJobDTO  implements CreateJobPayload
     {
         return $this->salary;
     }
-    
+
     public function getExternalService(): ?string
     {
         return $this->external_service;

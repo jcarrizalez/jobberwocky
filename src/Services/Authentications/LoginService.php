@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace Avature\Services\Authentications;
 
 use Firebase\JWT\JWT;
@@ -8,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Exception;
 
-class LoginService 
+class LoginService
 {
     protected $user;
 

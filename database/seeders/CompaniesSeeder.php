@@ -35,103 +35,103 @@ class CompaniesSeeder extends Seeder
     {
         return [
             [
-                'id' => 1, 
+                'id' => 1,
                 'name' => 'Cisco'
             ],
             [
-                'id' => 2, 
+                'id' => 2,
                 'name' => 'Adobe'
             ],
             [
-                'id' => 3, 
+                'id' => 3,
                 'name' => 'Wegmans Food Markets'
             ],
             [
-                'id' => 4, 
+                'id' => 4,
                 'name' => 'Workday'
             ],
             [
-                'id' => 5, 
+                'id' => 5,
                 'name' => 'Kimpton Hotels & Restaurants'
             ],
             [
-                'id' => 6, 
+                'id' => 6,
                 'name' => 'Edward Jones'
             ],
             [
-                'id' => 7, 
+                'id' => 7,
                 'name' => 'Ultimate Software'
             ],
             [
-                'id' => 8, 
+                'id' => 8,
                 'name' => 'Texas Health Resources'
             ],
             [
-                'id' => 9, 
+                'id' => 9,
                 'name' => 'Boston Consulting Group'
             ],
             [
-                'id' => 10, 
+                'id' => 10,
                 'name' => 'Stryker'
             ],
             [
-                'id' => 11, 
+                'id' => 11,
                 'name' => 'Publix Super Markets'
             ],
             [
-                'id' => 12, 
+                'id' => 12,
                 'name' => 'American Express'
             ],
             [
-                'id' => 13, 
+                'id' => 13,
                 'name' => 'Quicken Loans'
             ],
             [
-                'id' => 14, 
+                'id' => 14,
                 'name' => 'Orrick'
             ],
             [
-                'id' => 15, 
+                'id' => 15,
                 'name' => 'Baird'
             ],
             [
-                'id' => 16, 
+                'id' => 16,
                 'name' => 'JM Family Enterprises'
             ],
             [
-                'id' => 17, 
+                'id' => 17,
                 'name' => 'Kimley-Horn'
             ],
             [
-                'id' => 18, 
+                'id' => 18,
                 'name' => 'Camden Property Trust'
             ],
             [
-                'id' => 19, 
+                'id' => 19,
                 'name' => 'Cooley'
             ],
             [
-                'id' => 20, 
+                'id' => 20,
                 'name' => 'Plante Moran'
             ],
             [
-                'id' => 21, 
+                'id' => 21,
                 'name' => 'Salesforce'
             ],
             [
-                'id' => 22, 
+                'id' => 22,
                 'name' => 'Veterans United Home Loans'
             ],
             [
-                'id' => 23, 
+                'id' => 23,
                 'name' => 'Intuit'
             ],
             [
-                'id' => 24, 
+                'id' => 24,
                 'name' => 'The Cheesecake Factory'
             ],
             [
-                'id' => 25, 
+                'id' => 25,
                 'name' => 'Hilton'
             ],
         ];

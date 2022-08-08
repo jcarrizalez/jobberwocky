@@ -12,7 +12,7 @@ class AvatureAuth
     {
         /**
         * au me falto
-        * 
+        *
         $authorization = ($request->headers->get('authorization')?:$request->cookie('Authorization'));
 
         if(!$authorization) {

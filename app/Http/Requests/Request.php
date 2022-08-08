@@ -1,10 +1,12 @@
 <?php
-declare( strict_types = 1 );
+
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
-use Illuminate\Http\Request AS BaseRequest;
+use Illuminate\Http\Request as BaseRequest;
 
-class Request 
+class Request
 {
     public BaseRequest $request;
 
@@ -12,7 +14,7 @@ class Request
     {
         $this->request = $request;
     }
-    
+
     public function toArray(): array
     {
         return $this->request->toArray();

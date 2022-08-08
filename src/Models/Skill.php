@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace Avature\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -8,36 +10,34 @@ use Illuminate\Database\Eloquent\Builder;
 class Skill extends Model
 {
     protected $hidden = [
-        'id', 
+        'id',
         'pivot',
-        'created_at', 
-        'updated_at', 
+        'created_at',
+        'updated_at',
     ];
 
 
-    public function scopeSearch(Builder $query, ?string $search = null, $user = null) :Builder
-    { 
-        if($search !== null){
-            
+    public function scopeSearch(Builder $query, ?string $search = null, $user = null): Builder
+    {
+        if ($search !== null) {
             $query->where('skills.description', 'LIKE', "%{$search}%");
         }
 
         $user = 1;
 
-        if($user !== null){
-
+        if ($user !== null) {
             $skills = Skill::select('su.skill_id')
                 ->join('skill_user AS su', 'su.skill_id', 'skills.id')
                 ->where('skills.description', 'LIKE', "%{$search}%");
 
             $query->whereIn('skills.id', $skills);
         }
-        
-        return $query->orderBy("skills.created_at", 'DESC'); 
+
+        return $query->orderBy("skills.created_at", 'DESC');
     }
 
-    public function slugs(array $slugs) :array
+    public function slugs(array $slugs): array
     {
-        return self::whereIn('slug', $slugs)->get()->pluck('slug')->toArray(); 
+        return self::whereIn('slug', $slugs)->get()->pluck('slug')->toArray();
     }
 }

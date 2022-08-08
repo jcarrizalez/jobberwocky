@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace Avature\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -10,24 +12,24 @@ use Avature\Models\Country;
 use App\Payloads\CreateJobPayload;
 
 class Job extends Model
-{   
+{
     protected $table = 'jobs';
 
     protected $with = [
-        'skills', 
-        'country', 
-        'company', 
+        'skills',
+        'country',
+        'company',
     ];
 
     public $hidden = [
-        'id', 
-        'active', 
-        'companies', 
-        'user_id', 
-        'company_id', 
-        'country_id', 
-        'companies', 
-        'created_at', 
+        'id',
+        'active',
+        'companies',
+        'user_id',
+        'company_id',
+        'country_id',
+        'companies',
+        'created_at',
         'updated_at',
     ];
 
@@ -51,10 +53,9 @@ class Job extends Model
         return $this->belongsTo(Country::class);
     }
 
-    public function scopeSearch(Builder $query, ?string $search = null) :Builder
-    { 
-        if($search !== null){
-
+    public function scopeSearch(Builder $query, ?string $search = null): Builder
+    {
+        if ($search !== null) {
             $skills = Skill::select('js.job_id')
                 ->join('job_skill AS js', 'js.skill_id', 'skills.id')
                 ->where('skills.description', 'LIKE', "%{$search}%");
@@ -71,12 +72,12 @@ class Job extends Model
                 ->orWhereIn('company_id', $companies)
                 ->orWhereIn('id', $skills);
         }
-        return $query->orderBy("{$this->table}.created_at", 'DESC'); 
+        return $query->orderBy("{$this->table}.created_at", 'DESC');
     }
 
     public function create(CreateJobPayload $payload): self
     {
-        $entity = new self;
+        $entity = new self();
         $entity->title = $payload->getTitle();
         $entity->user_id = $payload->getUserId();
         $entity->salary = $payload->getSalary();
@@ -90,8 +91,8 @@ class Job extends Model
         return $entity;
     }
 
-    public function jobberwockyTitles(array $titles) :array
+    public function jobberwockyTitles(array $titles): array
     {
-        return self::where('external_service', 'jobberwocky')->whereIn('title', $titles)->get()->pluck('title')->toArray(); 
+        return self::where('external_service', 'jobberwocky')->whereIn('title', $titles)->get()->pluck('title')->toArray();
     }
 }

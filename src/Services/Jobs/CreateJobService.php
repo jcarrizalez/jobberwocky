@@ -14,57 +14,54 @@ use Exception;
 
 class CreateJobService
 {
-	protected DB $db;
-	protected Job $job;
-	protected Cache $cache;
-	protected FinderSkillService $finderSkillService;
-	protected NotificationAlertService $notificationAlertService;
+    protected DB $db;
+    protected Job $job;
+    protected Cache $cache;
+    protected FinderSkillService $finderSkillService;
+    protected NotificationAlertService $notificationAlertService;
 
-	public function __construct(
-		DB $db,
-		Job $job, 
-		Cache $cache, 
-		FinderSkillService $finderSkillService,
-		NotificationAlertService $notificationAlertService
-	){
-		$this->db = $db;
-		$this->job = $job;
-		$this->cache = $cache;
-		$this->finderSkillService = $finderSkillService;
-		$this->notificationAlertService = $notificationAlertService;
-	}
+    public function __construct(
+        DB $db,
+        Job $job,
+        Cache $cache,
+        FinderSkillService $finderSkillService,
+        NotificationAlertService $notificationAlertService
+    ) {
+        $this->db = $db;
+        $this->job = $job;
+        $this->cache = $cache;
+        $this->finderSkillService = $finderSkillService;
+        $this->notificationAlertService = $notificationAlertService;
+    }
 
-	public function make(CreateJobPayload $payload): ?Job
-	{
-		$job = null;
+    public function make(CreateJobPayload $payload): ?Job
+    {
+        $job = null;
 
-		$this->db->transaction(function() use($payload, &$job) {
+        $this->db->transaction(function () use ($payload, &$job) {
+            try {
+                $skills = $this->finderSkillService->getBySlugs($payload->getSkills());
 
-			try {
-				$skills = $this->finderSkillService->getBySlugs($payload->getSkills());
-				
-				$job = $this->job->create($payload);
+                $job = $this->job->create($payload);
 
-				$job->skills()->attach($skills->map(function(Skill $skill) use ($job){
-					return [
-						'job_id' => $job->id,
-						'skill_id' => $skill->id,
-					];
-				}));
+                $job->skills()->attach($skills->map(function (Skill $skill) use ($job) {
+                    return [
+                        'job_id' => $job->id,
+                        'skill_id' => $skill->id,
+                    ];
+                }));
 
-				$job->save();
-			
-				$job = $this->job->find($job->id);
-			}catch (Exception $e) {
+                $job->save();
 
-	        }
-		});
+                $job = $this->job->find($job->id);
+            } catch (Exception $e) {
+            }
+        });
 
-		if($job){
+        if ($job) {
+            $this->notificationAlertService->make($job);
+        }
 
-			$this->notificationAlertService->make($job);
-		}
-
-		return $job;
-	}
+        return $job;
+    }
 }

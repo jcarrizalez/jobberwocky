@@ -6,13 +6,14 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "firebase/php-jwt": "^5.0",
+        "friendsofphp/php-cs-fixer": "^3.9",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
-        "firebase/php-jwt": "^5.0",
-        "tymon/jwt-auth": "^0.5.12"
+        "tymon/jwt-auth": "^1"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
@@ -40,6 +41,10 @@
     },
     "scripts": {
         "post-autoload-dump": [
+            "php vendor/friendsofphp/php-cs-fixer/php-cs-fixer fix database",
+            "php vendor/friendsofphp/php-cs-fixer/php-cs-fixer fix app",
+            "php vendor/friendsofphp/php-cs-fixer/php-cs-fixer fix routes",
+            "php vendor/friendsofphp/php-cs-fixer/php-cs-fixer fix src",
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
         ],

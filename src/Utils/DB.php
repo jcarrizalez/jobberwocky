@@ -1,9 +1,11 @@
-<?php 
-declare( strict_types = 1 );
+<?php
+
+declare(strict_types=1);
+
 namespace Avature\Utils;
 
 use Closure;
-use Illuminate\Support\Facades\DB AS FacadeDB;
+use Illuminate\Support\Facades\DB as FacadeDB;
 
 /**
  * @method static \Illuminate\Database\Query\Builder table(string $table)
@@ -33,18 +35,18 @@ use Illuminate\Support\Facades\DB AS FacadeDB;
  */
 class DB extends FacadeDB
 {
-	public function table(string $table)
-	{
-		return 	FacadeDB::table($table);
-	}
+    public function table(string $table)
+    {
+        return 	FacadeDB::table($table);
+    }
 
-	public function transaction(Closure $callback, int $attempts = 1)
-	{
-		return 	FacadeDB::transaction($callback, $attempts);
-	}
+    public function transaction(Closure $callback, int $attempts = 1)
+    {
+        return 	FacadeDB::transaction($callback, $attempts);
+    }
 
-	public function connection(string $name = null)
-	{
-		return 	FacadeDB::connection($name);
-	}
+    public function connection(string $name = null)
+    {
+        return 	FacadeDB::connection($name);
+    }
 }

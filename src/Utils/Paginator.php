@@ -1,32 +1,34 @@
 <?php
-declare( strict_types = 1 );
+
+declare(strict_types=1);
+
 namespace Avature\Utils;
 
 final class Paginator
 {
-	protected int $count;
-	
-	protected int $page;
+    protected int $count;
 
-	public function __construct(array $params)
-	{
-		$this->count = (int) ($params['count'] ?? 10);
+    protected int $page;
 
-		$this->page = (int) ($params['page'] ?? 1);
-	}
+    public function __construct(array $params)
+    {
+        $this->count = (int) ($params['count'] ?? 10);
 
-	public function getCount(): int
-	{
-		return $this->count;
-	}
+        $this->page = (int) ($params['page'] ?? 1);
+    }
 
-	public function getPage(): int
-	{
-		return $this->page;
-	}
+    public function getCount(): int
+    {
+        return $this->count;
+    }
 
-	public function toString(): string
-	{
-		return "count={$this->count}&page={$this->page}";
-	}
+    public function getPage(): int
+    {
+        return $this->page;
+    }
+
+    public function toString(): string
+    {
+        return "count={$this->count}&page={$this->page}";
+    }
 }

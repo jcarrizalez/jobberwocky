@@ -13,61 +13,59 @@ use Exception;
 
 class CreateAlertService
 {
-	protected DB $db;
-	protected User $user;
-	protected Cache $cache;
-	protected FinderSkillService $finderSkillService;
+    protected DB $db;
+    protected User $user;
+    protected Cache $cache;
+    protected FinderSkillService $finderSkillService;
 
-	public function __construct(
-		DB $db,
-		User $user, 
-		Cache $cache, 
-		FinderSkillService $finderSkillService
-	){
-		$this->db = $db;
-		$this->user = $user;
-		$this->cache = $cache;
-		$this->finderSkillService = $finderSkillService;
-	}
+    public function __construct(
+        DB $db,
+        User $user,
+        Cache $cache,
+        FinderSkillService $finderSkillService
+    ) {
+        $this->db = $db;
+        $this->user = $user;
+        $this->cache = $cache;
+        $this->finderSkillService = $finderSkillService;
+    }
 
-	public function make(CreateAlertPayload $payload): ?Collection
-	{
-		$response = null;
+    public function make(CreateAlertPayload $payload): ?Collection
+    {
+        $response = null;
 
-		$this->db->transaction(function() use($payload, &$response) {
+        $this->db->transaction(function () use ($payload, &$response) {
+            try {
+                $skills = $this->finderSkillService->getBySlugs($payload->getSkills());
 
-			try {
-				$skills = $this->finderSkillService->getBySlugs($payload->getSkills());
-				
-				$user = $this->user->with('skills')->find($payload->getUserId());
+                $user = $this->user->with('skills')->find($payload->getUserId());
 
-				$userSkills = array_column($user->skills->toArray(), 'slug');
+                $userSkills = array_column($user->skills->toArray(), 'slug');
 
-				$newSkills = array_column($skills->toArray(), 'slug');
+                $newSkills = array_column($skills->toArray(), 'slug');
 
-				$detach = new Collection(array_diff($userSkills, $newSkills));
+                $detach = new Collection(array_diff($userSkills, $newSkills));
 
-				$attach = new Collection(array_diff($newSkills, $userSkills));
+                $attach = new Collection(array_diff($newSkills, $userSkills));
 
-				$user->skills()->detach($detach->map(function(string $slug) use($user){
-					return $user->skills->firstWhere('slug', $slug)->id;
-				}));
-				
-				$user->skills()->attach($attach->map(function(string $slug) use ($user, $skills){
-					return [
-						'user_id' => $user->id,
-						'skill_id' => $skills->firstWhere('slug', $slug)->id,
-					];
-				}));
+                $user->skills()->detach($detach->map(function (string $slug) use ($user) {
+                    return $user->skills->firstWhere('slug', $slug)->id;
+                }));
 
-				$user->save();
-			
-				$response = $skills;
-			
-			}catch (Exception $e) {
-	        }
-		});
+                $user->skills()->attach($attach->map(function (string $slug) use ($user, $skills) {
+                    return [
+                        'user_id' => $user->id,
+                        'skill_id' => $skills->firstWhere('slug', $slug)->id,
+                    ];
+                }));
 
-		return $response;
-	}
+                $user->save();
+
+                $response = $skills;
+            } catch (Exception $e) {
+            }
+        });
+
+        return $response;
+    }
 }
