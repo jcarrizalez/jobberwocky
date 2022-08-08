@@ -5,6 +5,7 @@ git clone https://github.com/avatureassessment/jobberwocky-extra-source.git;
 ```
 ## Install Proyects
 ```
+docker-compose up -d;
 docker-compose exec avature-jobberwocky npm install;
 docker-compose exec avature-laravel composer install;
 docker-compose exec avature-laravel php artisan migrate:rollback;
