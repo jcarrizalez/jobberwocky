@@ -41,6 +41,7 @@
     },
     "scripts": {
         "post-autoload-dump": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
             "php vendor/friendsofphp/php-cs-fixer/php-cs-fixer fix database",
             "php vendor/friendsofphp/php-cs-fixer/php-cs-fixer fix app",
             "php vendor/friendsofphp/php-cs-fixer/php-cs-fixer fix routes",
